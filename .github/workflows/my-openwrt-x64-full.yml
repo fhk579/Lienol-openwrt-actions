@@ -3,9 +3,9 @@ name: My-OpenWRT-CI-X64-Full
 on:
   schedule:
     - cron: 0 22 * * *
-  push:
-    branches: 
-      - master
+#  push:
+#    branches: 
+#      - master
 
 jobs:
   build:
@@ -63,7 +63,6 @@ jobs:
           mkdir -p ./artifact/
           find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
           find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
-          find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
 
     - name: Upload artifact
       uses: actions/upload-artifact@master
