@@ -3,9 +3,9 @@ name: X64-Lean-CI
 on:
   schedule:
     - cron: 0 22 * * *
-  push:
-    branches: 
-      - master
+#  push:
+#    branches: 
+#      - master
 
 jobs:
   build:
