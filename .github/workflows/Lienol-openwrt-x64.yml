@@ -1,11 +1,11 @@
 name: Lienol-openwrt-x64
 
 on:
+  push:
+    branches: 
+      - master
   schedule:
     - cron: 0 20 * * *
-#  push:
-#    branches: 
-#      - master
 
 jobs:
   build:
@@ -81,10 +81,12 @@ jobs:
       run: |
           rm -rf ./artifact/
           mkdir -p ./artifact/
+          find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
           find openwrt/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
-
+          find openwrt/bin/targets/ -name "*combined*vmdk*" | xargs -i mv -f {} ./artifact/
+          
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: Lienol-openwrt-x64
+        name: OpenWrt firmware
         path: ./artifact/
