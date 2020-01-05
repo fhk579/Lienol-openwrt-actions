@@ -64,7 +64,19 @@ jobs:
           make download -j8
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
-
+          
+    - name: Multi-thread compile
+      run: |
+          cd openwrt
+          echo -e "$(nproc) thread build."
+          make -j$(nproc) V=s
+          
+    - name: Single-thread compile
+      if: failure()
+      run: |
+          cd openwrt
+          make -j1 V=s
+          
     - name: Assemble artifact
       run: |
           rm -rf ./artifact/
@@ -76,5 +88,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt firmware
+        name: Lienol-openwrt-x64
         path: ./artifact/
