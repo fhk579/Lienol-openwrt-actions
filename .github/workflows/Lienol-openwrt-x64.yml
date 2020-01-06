@@ -24,10 +24,22 @@ jobs:
           
     - name: Clone source code
       env: 
-        REPO_URL: https://github.com/Lienol/lean-lede
-        REPO_BRANCH: dev
+        REPO_URL: https://github.com/Lienol/openwrt
+        REPO_BRANCH: my-19.07-full
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
       
+    - name: DIY packages
+      working-directory: ./openwrt
+      run: |
+        cd package
+        mkdir Extra-plugin
+        cd Extra-plugin
+        git clone https://github.com/Leo-Jo/luci-app-koolproxyR
+        git clone https://github.com/destan19/OpenAppFilter
+        git clone https://github.com/tty228/luci-app-serverchan
+        git clone https://github.com/rufengsuixing/luci-app-adguardhome
+        git clone https://github.com/rosywrt/luci-theme-rosy
+        
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -38,7 +50,7 @@ jobs:
       run: |
           cd openwrt
           rm -f .config
-          cp ../lean-lede-x64 .config
+          cp ../Lienol-openwrt-x64 .config
           
     - name: Make download
       run: |
